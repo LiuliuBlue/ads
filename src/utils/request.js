@@ -1,69 +1,77 @@
 import axios from 'axios'
-/**
-import store from '../store'
-import router from '../router'
- */
+import { Message } from 'element-ui'
+import store from '@/store'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
-// 创建axios实例
-const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000
+const instance = axios.create({
+  baseURL: process.env.VUE_APP_API,
+  timeout: 3 * 1000
 })
 
 // 请求拦截器
-service.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => {
-    // 将token通过请求头发送给后台
-    /**
-      const token = store.getters.token;
-      if (token) config.headers.Authorization = token;
-    */
+    // TODO 发送请求头
+    store.commit('loading/open')
+    NProgress.start()
+    const token = store.getters.token
+    if (token) {
+      config.headers.token = token
+    }
     return config
   },
   (error) => {
-    _showError('请求超时')
-    return Promise.reject(error)
+    store.commit('loading/close')
+    NProgress.done()
+    return Promise.reject(new Error(error))
   }
 )
 
 // 响应拦截器
-service.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
-    if (response.data.code === 200) {
-      return response.data.data
+    // TODO 全局响应处理
+    store.commit('loading/close')
+    NProgress.done()
+    const { data, code, msg } = response.data
+    if (code === 200) {
+      return data
     }
-    _showError(response.data.code, response.data.message)
-    /**
-    if (response.headers.authorization) {
-      store.commit("user/SET_TOKEN", response.headers.authorization);
-    }
-    if (response.data.code === 401) {
-      store.commit("SET_TOKEN", "");
-      store.commit("SET_USER_INFO", "");
-      store.commit("SET_NAV", "");
-      router.push("/login");
-    }
-    */
+    _showErrorMsg(msg)
+    return Promise.reject(new Error(msg))
   },
   (error) => {
-    _showError(error.message)
-    return Promise.reject(error)
+    store.commit('loading/close')
+    NProgress.done()
+    const { message } = error
+    if (message.includes('timeout')) {
+      _showErrorMsg('网络超时')
+    }
+    if (message.includes('Network Error')) {
+      _showErrorMsg('请检查网络')
+    }
+    const { code, msg, status } = error.response.data
+    switch (code) {
+      case 400:
+        _showErrorMsg(msg)
+        break
+    }
+    if (status === 404) {
+      _showErrorMsg('找不到资源啦')
+    }
+    return Promise.reject(new Error(error))
   }
 )
 
-// 响应提示信息
-const _showError = (message) => {
-  const info = message || '发生未知错误'
-  this.$message.error(info)
+const _showErrorMsg = (msg) => {
+  Message.error(msg)
 }
 
-// 统一了传参处理
+// 统一传参处理
 const request = (options) => {
-  if (options.method.toLowerCase() === 'get') {
-    options.params = options.data || {}
-  }
-  return service(options)
+  options.params = options.method.toLowerCase() === 'get' ? options.data : {}
+  return instance(options)
 }
 
-// 导出axios实例对象
 export default request

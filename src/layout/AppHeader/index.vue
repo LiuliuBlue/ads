@@ -1,47 +1,67 @@
 <template>
-  <div class="head">
-    <div class="tc">
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          duck
-          <el-icon class="el-icon--right">
-            <arrow-down />
-          </el-icon>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>个人设置</el-dropdown-item>
-            <el-dropdown-item @click="tcdl">退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+  <div class="header-container">
+    <div class="left-container">
+      <div class="left-icon" @click="changeCollapse">
+        <i :class="icon"></i>
+      </div>
+      <div class="tags-view-container">
+        <tags-view></tags-view>
+      </div>
     </div>
+    <MyDropdown></MyDropdown>
   </div>
 </template>
+
 <script>
+import MyDropdown from '@/components/MyDropdown'
+import { mapMutations } from 'vuex'
+import TagsView from '@/components/TagsView'
+
 export default {
-  data() {
-    return {}
+  components: {
+    TagsView,
+    MyDropdown
   },
   methods: {
-    tcdl() {
-      this.$router.push('../../views/login.vue')
-    }
+    ...mapMutations({
+      changeCollapse: 'menu/changeCollapse'
+    })
   },
-  components: {},
-  computed: {},
-  watch: {},
-  created() {}
+  computed: {
+    icon() {
+      return this.$store.getters.Collapse
+        ? 'el-icon-s-unfold'
+        : 'el-icon-s-fold'
+    }
+  }
 }
 </script>
+
 <style lang="scss" scoped>
-.tc {
-  font-size: 30px;
-  color: #fff;
-  align-items: center;
-  margin-left: 1200px;
-}
-.tc .el-dropdown-link {
-  color: #fff;
+.header-container {
+  height: 100%;
+  position: relative;
+
+  .left-container {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .left-icon {
+      color: #fff;
+      font-size: 30px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .tags-view-container {
+      margin-left: 10px;
+    }
+  }
 }
 </style>

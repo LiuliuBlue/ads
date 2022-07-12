@@ -1,50 +1,53 @@
 <template>
   <el-container>
-    <el-aside width="200px">
-      <AppAside></AppAside>
-    </el-aside>
+    <app-aside></app-aside>
     <el-container>
       <el-header>
-        <AppHeader></AppHeader>
+        <app-header></app-header>
       </el-header>
       <el-main>
-        <AppMain></AppMain>
+        <bread-crumbs></bread-crumbs>
+        <app-main></app-main>
       </el-main>
     </el-container>
   </el-container>
 </template>
+
 <script>
 import AppAside from '@/layout/AppAside'
-import AppMain from '@/layout/AppMain'
 import AppHeader from '@/layout/AppHeader'
+import AppMain from '@/layout/AppMain'
+import BreadCrumbs from '@/components/BreadCrumbs'
+
 export default {
-  data() {
-    return {}
-  },
-  methods: {},
-  components: { AppAside, AppMain, AppHeader },
-  computed: {},
-  watch: {},
-  created() {}
+  name: 'layout',
+  components: {
+    BreadCrumbs,
+    AppAside,
+    AppHeader,
+    AppMain
+  }
 }
 </script>
-<style lang="scss" scoped>
-.el-container {
-  height: 100%;
-}
+
+<style lang='scss' scoped>
 .el-header {
-  background-color: $header-bg-color;
+  background-color: #18bc9c;
   color: #333;
-  line-height: 60px;
 }
 
 .el-aside {
-  background-color: $aside-bg-color;
-  color: #333;
+  background-color: #222d32;
+  color: #fff;
 }
 
 .el-main {
-  background-color: $main-bg-color;
+  background-color: #E9EEF3;
   color: #333;
+}
+
+.el-container {
+  margin-bottom: 40px;
+  height: 100%;
 }
 </style>

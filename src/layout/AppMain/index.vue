@@ -1,26 +1,13 @@
 <template>
-  <div class="main">
-    <div class="sev">
-
-    </div>
-  </div>
+  <el-card style='margin-top: 10px'>
+    <router-view />
+  </el-card>
 </template>
+
 <script>
-export default {
-  data() {
-    return {}
-  },
-  methods: {},
-  components: {},
-  computed: {},
-  watch: {},
-  created() {}
-}
+export default {}
 </script>
-<style lang="scss" scoped>
-.sev{
-width: 100%;
-height: 100px;
-background-color: aqua;
-}
+
+<style scoped>
+
 </style>
