@@ -1,5 +1,9 @@
 <template>
-  <div class="main">main</div>
+  <div class="main">
+    <div class="sev">
+
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -13,4 +17,10 @@ export default {
   created() {}
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.sev{
+width: 100%;
+height: 100px;
+background-color: aqua;
+}
+</style>

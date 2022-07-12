@@ -45,6 +45,9 @@
         >
       </el-form-item>
     </el-form>
+    <div>
+      <button @click="del">123</button>
+    </div>
   </div>
 </template>
 <script>
@@ -110,6 +113,7 @@ export default {
         }
       })
     },
+
     /**
      * 登录
      */
@@ -125,6 +129,10 @@ export default {
       } finally {
         this.loadingLogin = false
       }
+    },
+    // vue2跳转
+    del() {
+      this.$router.push('../layout')
     }
   },
   components: {},
