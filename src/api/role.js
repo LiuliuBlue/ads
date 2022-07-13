@@ -12,3 +12,13 @@ export const roleListAPI = (data) => {
     data
   })
 }
+/**
+ * 添加角色
+ */
+export const roleAddApi = (data) => {
+  return request({
+    url: '/role/add',
+    method: 'POST',
+    data
+  })
+}

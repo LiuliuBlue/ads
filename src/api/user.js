@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 /**
  * 获取图片验证码
  * @returns {AxiosPromise}
@@ -72,6 +73,7 @@ export const addUserApi = (data) => {
     data
   })
 }
+
 /**
  * 编辑用户
  */
