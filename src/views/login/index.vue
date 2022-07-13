@@ -120,7 +120,7 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   height: 100%;
-  background: url('@/assets/images/bg.jpg') no-repeat 0 0;
+  background: url('@/assets/images/123.webp') no-repeat 0 0;
   background-size: cover;
   position: fixed;
   left: 0;
